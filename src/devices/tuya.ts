@@ -11604,6 +11604,29 @@ const definitions: DefinitionWithExtend[] = [
             ],
         },
     },
+    {
+        fingerprint: [{modelID: 'TS0601', manufacturerName: '_TZE204_ojgpf7qa'}],
+        model: 'SAS980',
+        vendor: 'Saswell',
+        description: 'Zigbee smart water valve',
+        onEvent: tuya.onEventSetTime,
+        configure: tuya.configureMagicPacket,
+        fromZigbee: [tuya.fz.datapoints],
+        toZigbee: [tuya.tz.datapoints],
+        exposes: [
+            e.switch().setAccess('state', ea.STATE_SET),
+            e.battery(),
+            e.numeric('timer_time_left', ea.STATE).withUnit('min').withDescription('Auto off timer time left'),
+            e.numeric('last_valve_open_duration', ea.STATE).withUnit('min').withDescription('Time the valve was open when state on'),
+        ],
+        meta: {
+            tuyaDatapoints: [
+                [1, 'state', tuya.valueConverter.onOff],
+                [11, 'timer_time_left', tuya.valueConverterBasic.divideBy(60)],
+                [15, 'last_valve_open_duration', tuya.valueConverterBasic.divideBy(60)],
+            ]
+        },
+    },
 ];
 
 export default definitions;
